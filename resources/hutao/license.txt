@@ -1,0 +1,11 @@
+Model Information:
+* title:	Hutao
+* source:	https://sketchfab.com/3d-models/hutao-4a65b1f4bc0b43c8b4aa1951a03b6bed
+* author:	hucancode (https://sketchfab.com/hucancode)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Hutao" (https://sketchfab.com/3d-models/hutao-4a65b1f4bc0b43c8b4aa1951a03b6bed) by hucancode (https://sketchfab.com/hucancode) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
