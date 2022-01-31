@@ -1,0 +1,11 @@
+Model Information:
+* title:	Yanfei
+* source:	https://sketchfab.com/3d-models/yanfei-fee713e4e1b54d5d9d6ea690d7835318
+* author:	hucancode (https://sketchfab.com/hucancode)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Yanfei" (https://sketchfab.com/3d-models/yanfei-fee713e4e1b54d5d9d6ea690d7835318) by hucancode (https://sketchfab.com/hucancode) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)

@@ -8,9 +8,9 @@
 #include <stb_image.h>
 #include "Texture.h"
 
-Texture::Texture(const char *filename) {
+Texture::Texture(const std::string& filename) : path(filename) {
     int width, height, nrChannels;
-    unsigned char *data = stbi_load(filename, &width, &height, &nrChannels, 0);
+    unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
     // 为当前绑定的纹理对象设置环绕、过滤方式
