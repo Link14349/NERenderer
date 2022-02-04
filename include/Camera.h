@@ -10,6 +10,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Object.h"
+
 class NERenderer;
 
 class Camera {
@@ -24,6 +26,13 @@ private:
     Window* window;
     float x, y, z;
     glm::vec3 A, B;// 投影平面矢量(需要正交化)
+    cl_mem clvx;
+    cl_mem clvy;
+    cl_mem clvz;
+    cl_mem clTx;
+    cl_mem clTy;
+    cl_mem clTz;
+    cl_mem clDistance;
 };
 
 

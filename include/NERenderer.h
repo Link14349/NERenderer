@@ -14,7 +14,7 @@
 class NERenderer {
 public:
     friend class Camera;
-    explicit NERenderer(Manifold* m, const char* title) : manifold(m), window(title) { }
+    explicit NERenderer(Manifold* m, const char* title) : manifold(m), window(title), shader("./gl/vertexShader.vs.glsl", "./gl/fragmentShader.fs.glsl") { }
     Manifold* getManifold() { return manifold; }
     Window* getWindow() { return &window; }
     void useCamera(Camera* c) { camera = c; }
@@ -23,6 +23,7 @@ public:
 private:
     Manifold* manifold;
     Window window;
+    Shader shader;
     Camera* camera{};
     std::vector<Object*> objects;
 };

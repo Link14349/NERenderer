@@ -13,10 +13,10 @@
 #include <Shader.h>
 #include <Object.h>
 
-unsigned int TextureFromFile(const char* path, const std::string &directory, bool gamma = false);
+//unsigned int TextureFromFile(const char* path, const std::string &directory, bool gamma = false);
 
-class Model
-{
+class Model {
+    friend class Object;
 public:
     /*  函数   */
     explicit Model(const std::string& path);

@@ -44,7 +44,7 @@ def each(files, root):
 			if os.path.isdir(path):
 				each(os.listdir(path), path)
 			else:
-				if path.find(".cpp") > -1 or path.find(".h") > -1:
+				if path.find(".cpp") > -1 or path.find(".h") > -1 or path.find(".cl") > -1 or path.find(".glsl") > -1:
 					file = open(path)
 					content = file.read()
 					line = len(content.split("\n"))

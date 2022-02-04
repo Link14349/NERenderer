@@ -1,0 +1,11 @@
+Model Information:
+* title:	pikamee (voms)
+* source:	https://sketchfab.com/3d-models/pikamee-voms-5c8e8dc6b0ff45078000243688c9e94e
+* author:	chained_tan (https://sketchfab.com/ch_fren)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "pikamee (voms)" (https://sketchfab.com/3d-models/pikamee-voms-5c8e8dc6b0ff45078000243688c9e94e) by chained_tan (https://sketchfab.com/ch_fren) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

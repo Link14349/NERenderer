@@ -20,7 +20,7 @@ public:
         glfwPollEvents();
     }
     ~Window() { glfwTerminate(); }
-private:
+//private:
     GLFWwindow* window;
 };
 

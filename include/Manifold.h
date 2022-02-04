@@ -8,6 +8,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <OpenCL.h>
 
 class Manifold {
 public:
@@ -19,6 +20,10 @@ public:
     virtual float vec_product(const glm::vec3& a, const glm::vec3& b, float x, float y, float z);
     virtual void range(float& x, float& y, float& z) = 0;
 //    virtual void Riemann(float R[3][3][3][3]) = 0;
+    Program findGeodesic;
+    Program getPoint;// 指数映射
+protected:
+    OpenCL opencl;
 };
 
 #endif //NERENDER_MANIFOLD_H

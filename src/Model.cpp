@@ -37,9 +37,9 @@ Mesh* Model::processMesh(aiMesh *mesh, const aiScene *scene) {
     auto m = new Mesh;
     for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
         if(mesh->mTextureCoords[0]) {
-            m->vertices.push_back(new Vertex(glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z), glm::vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y)));
+            m->vertices.push_back(new Vertex(glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z), glm::vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y), glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z)));
         } else {
-            m->vertices.push_back(new Vertex(glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z), glm::vec2(0, 0)));
+            m->vertices.push_back(new Vertex(glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z), glm::vec2(0, 0), glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z)));
         }
     }
     for(unsigned int i = 0; i < mesh->mNumFaces; i++) {

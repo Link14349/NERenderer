@@ -1,0 +1,11 @@
+Model Information:
+* title:	Inugami Korone (hololive)
+* source:	https://sketchfab.com/3d-models/inugami-korone-hololive-8b89fc7bb19c449baceb403a2995fd78
+* author:	chained_tan (https://sketchfab.com/ch_fren)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Inugami Korone (hololive)" (https://sketchfab.com/3d-models/inugami-korone-hololive-8b89fc7bb19c449baceb403a2995fd78) by chained_tan (https://sketchfab.com/ch_fren) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
