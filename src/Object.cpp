@@ -26,7 +26,7 @@ Object::~Object() {
 //    delete vertexManager;
 }
 
-void Object::loadModel(const std::string& filename) {
+void Object::loadModel(const std::string& filename, float scale) {
     model = new Model(filename);
     std::map<Vertex*, bool> vertexMap;
     for (auto& mesh : model->meshes) {
@@ -37,7 +37,7 @@ void Object::loadModel(const std::string& filename) {
                 vertexes.push_back(vertex);
                 float len = sqrtf(vertex->position.x * vertex->position.x + vertex->position.y * vertex->position.y + vertex->position.z * vertex->position.z);
                 float len_ = sqrtf(manifold->vec_product(vertex->position, vertex->position, x, y, z));
-                vertex->position *= len / len_;
+                vertex->position *= len / len_ * scale;
             }
         }
     }
@@ -86,13 +86,36 @@ void Object::updateVertexPosition() {
     getPoint.readBuffer(clOx, savedPositionX);
     getPoint.readBuffer(clOy, savedPositionY);
     getPoint.readBuffer(clOz, savedPositionZ);
+    clReleaseMemObject(clTx);
+    clReleaseMemObject(clTy);
+    clReleaseMemObject(clTz);
+    clReleaseMemObject(clOx);
+    clReleaseMemObject(clOy);
+    clReleaseMemObject(clOz);
 }
 
 #ifdef OBJECT_DEBUG
 void Object::debug() {
     for (auto& vertex : vertexes) std::cout << vertex->position.x << ", " << vertex->position.y << ", " << vertex->position.z << std::endl;
+    std::cout << "=====" << std::endl;
+    for (int i = 0; i < vertexes.size(); i++) std::cout << savedPositionX[i] << ", " << savedPositionY[i] << ", " << savedPositionZ[i] << std::endl;
 }
 #endif
+
+void Object::updateScreenPosition() {
+    for (auto& mesh : meshes) mesh->updateScreenPosition();
+}
+
+void Mesh::updateScreenPosition() {
+    for (int i = 0; i < vertices.size(); i++) {
+        glVertex[i * 5] = vertices[i]->screenPosition.x;
+        glVertex[i * 5 + 1] = vertices[i]->screenPosition.y;
+        glVertex[i * 5 + 2] = vertices[i]->screenPosition.z;
+        glVertex[i * 5 + 3] = vertices[i]->texCoord.x;
+        glVertex[i * 5 + 4] = vertices[i]->texCoord.y;
+    }
+    vertexManager->update(0, vertices.size(), glVertex);
+}
 
 void Mesh::init() {
     glVertex = new float[5 * vertices.size()];

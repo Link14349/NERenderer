@@ -43,6 +43,7 @@ void VertexManager::enableVertexAttribArray() {
 }
 
 void VertexManager::update(unsigned int offset, unsigned int len, void *data) const {
-    use();
+//    use();
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferSubData(GL_ARRAY_BUFFER, offset * stride, len * stride, data);
 }

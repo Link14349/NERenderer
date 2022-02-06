@@ -50,6 +50,7 @@ public:
     template <class T>
     void setArg(T* data);
     void execute(bool wait = true);
+    size_t getRCount() const { return rCount; }
     ~Program();
 //    void runKernel(const std::string& kernelName);
 private:

@@ -43,17 +43,42 @@ int main() {
     HypersphereManifold manifold;
     unsigned int t1, t2;
 #ifdef LOAD_MODEL
-    NERenderer renderer(&manifold, "NERenderer");
-    Object object(&renderer, 0, 0, 1);
+    NERenderer renderer(&manifold, "NERenderer", 800, 800);
+    Object object(&renderer, 0, 0, .5f);
     Camera camera(&renderer, 0, 0, 0);
+    renderer.useCamera(&camera);
+    renderer.addObject(&object);
+    auto& shader = renderer.getShader();
     gettimeofday(&time, NULL);
     t1 = (time.tv_sec * 1000 + time.tv_usec / 1000);
-    object.loadModel("./resources/minecraft_grass_block/scene.gltf");
+    object.loadModel("./resources/pikamee_voms/scene.gltf", .01f);
     gettimeofday(&time, NULL);
     t2 = (time.tv_sec * 1000 + time.tv_usec / 1000);
     std::cout << "load model used " << t2 - t1 << "ms" << ", " << object.vertexCount() << " vertexes" << std::endl;
 //    object.debug();
+//    renderer.render();
+    while (!renderer.getWindow()->close()) {
+        // input
+        // -----
+        processInput(*renderer.getWindow());
 
+        // render
+        // ------
+        glClearDepth(1.0f);
+        glClearColor(0, 0, 0, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glm::mat4 trans = glm::mat4(1.0f);
+//        trans = glm::scale(trans, glm::vec3(0.05, 0.05, 0.05));
+        shader.setMatrix4fv("transform", trans);
+        object.move(0, 0, 0.01f);
+//        object.move(0.01f, 0, 0);
+        renderer.render();
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        renderer.getWindow()->update();
+    }
 #endif
 #ifdef GPU_GEODESIC
     const size_t count = 1e5;

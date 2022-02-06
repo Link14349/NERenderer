@@ -40,6 +40,7 @@ public:
     std::vector<Texture*> textures;
     VertexManager* vertexManager;
     float* glVertex;
+    void updateScreenPosition();
 //    unsigned int* glIndexes;
     ~Mesh() {
         for (auto& iter : vertices) delete iter;
@@ -55,14 +56,18 @@ class Object {
 public:
     Object(NERenderer* r, float x_, float y_, float z_);
     void move(float dx, float dy, float dz);
-    void loadModel(const std::string& filename);
+    void loadModel(const std::string& filename, float scale = 1);
     void updateVertexPosition();
     size_t vertexCount() { return vertexes.size(); }
+    void draw(Shader& shader) {
+        for (auto& mesh : meshes) mesh->draw(shader);
+    }
 #ifdef OBJECT_DEBUG
     void debug();
 #endif
     ~Object();
 protected:
+    void updateScreenPosition();
 //    void createVertexManager();
     std::vector<Vertex*> vertexes;
     std::vector<Mesh*> meshes;

@@ -9,5 +9,6 @@ void NERenderer::render() {
         std::cerr << "ERROR::NERENDERER::RENDER::NO_CAMERA" << std::endl;
         return;
     }
+    shader.use();
     camera->render();
 }

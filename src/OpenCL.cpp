@@ -118,10 +118,11 @@ void Program::execute(bool wait) {
         exit(1);
     }
     if (wait) clFinish(openCL->commands);
+    argLen = 0;
 }
 
 Program::~Program() {
-    for (auto& buffer : buffers) clReleaseMemObject(buffer);
+//    for (auto& buffer : buffers) clReleaseMemObject(buffer);
     clReleaseProgram(program);
     clReleaseKernel(kernel);
 }

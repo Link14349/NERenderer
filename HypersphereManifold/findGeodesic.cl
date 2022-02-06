@@ -46,30 +46,31 @@ void range(float* x, float* y, float* z) {
     if (*z > M_PI) *z -= 2 * M_PI;
 }
 
-__kernel void geodesic(
-        __global float* vx,
-        __global float* vy,
-        __global float* vz,
-        __global float* Tx_,
-        __global float* Ty_,
-        __global float* Tz_,
-        __global float* minDistance,// 此方式计算的测地线与顶点的距离(欧式距离)
-        __global float* distance,// 顶点与出发点的距离
-        const float x_,
-        const float y_,
-        const float z_,
-        const float h,
-        const unsigned int count) {
-    int i = get_global_id(0);
-    if (i >= count) return;
+float calculateGeo(
+        float vx,
+        float vy,
+        float vz,
+        float Tx,
+        float Ty,
+        float Tz,
+        float* distance,// 误差距离
+        float x,
+        float y,
+        float z,
+        float h) {
+    // 归一化
+    float Tlen = 1.0f / sqrt(Tx * Tx + square(cos(x)) * (Ty * Ty + square(cos(y)) * Tz * Tz));
+    Tx *= Tlen;
+    Ty *= Tlen;
+    Tz *= Tlen;
     float dis2 = 1e10;
     float minDistance_distance;// 与顶点最近点与出发点的距离
-    float x = x_, y = y_, z = z_;
-    float Tx = Tx_[i], Ty = Ty_[i], Tz = Tz_[i];
+//    float x = x_, y = y_, z = z_;
+//    float Tx = Tx_[i], Ty = Ty_[i], Tz = Tz_[i];
     for (float s = 0; s <= 6.283185307179586f; s += h) {
         float rangedX = x, rangedY = y, rangedZ = z;
         range(&rangedX, &rangedY, &rangedZ);
-        float d2 = (rangedX - vx[i]) * (rangedX - vx[i]) + (rangedY - vy[i]) * (rangedY - vy[i]) + (rangedZ - vz[i]) * (rangedZ - vz[i]);
+        float d2 = (rangedX - vx) * (rangedX - vx) + (rangedY - vy) * (rangedY - vy) + (rangedZ - vz) * (rangedZ - vz);
         if (d2 < dis2) {
             dis2 = d2;
             minDistance_distance = s;
@@ -103,6 +104,55 @@ __kernel void geodesic(
         Tz += .16666666666666666f * (k1z + 2 * k2z + 2 * k3z + k4z) * h;
 //        printf("[%f, %f], ", rangedY, rangedZ);
     }
-    minDistance[i] = dis2;
-    distance[i] = minDistance_distance;
+//    printf("%f\n", dis2);
+    *distance = dis2;
+    return 2.0f * M_1_PI * atan(minDistance_distance);
+}
+
+__kernel void geodesic(
+        __global float* vx_,
+        __global float* vy_,
+        __global float* vz_,
+        __global float* Tx_,
+        __global float* Ty_,
+        __global float* Tz_,
+        __global float* distance,// 顶点与出发点的距离
+        const float x,
+        const float y,
+        const float z,
+        const float h,
+        const unsigned int count) {
+    int i = get_global_id(0);
+    if (i >= count) return;
+    float vx = vx_[i], vy = vy_[i], vz = vz_[i];
+    float Tx = vx - x, Ty = vy - y, Tz = vz - z;// 猜测切向量值
+    float camera_vertex_distance;
+    float Tlen = 1.0f / sqrt(Tx * Tx + square(cos(x)) * (Ty * Ty + square(cos(y)) * Tz * Tz));
+    Tx *= Tlen;
+    Ty *= Tlen;
+    Tz *= Tlen;
+    // 牛顿迭代
+    float dis2 = 1e10;
+    float dxDis2, dyDis2;
+    while (dis2 >= 0.01f) {
+        // 因为切向量长度是被限定为1的所以实际上只有两个自由变量，这里我们选择Tx, Ty
+        float dxDis2, dyDis2;
+        camera_vertex_distance = calculateGeo(vx, vy, vz, Tx, Ty, Tz, &dis2, x, y, z, h);
+        calculateGeo(vx, vy, vz, Tx + h, Ty, Tz, &dxDis2, x, y, z, h);
+        calculateGeo(vx, vy, vz, Tx, Ty + h, Tz, &dyDis2, x, y, z, h);
+        float partialX = (dxDis2 - dis2) / h;
+        float partialY = (dyDis2 - dis2) / h;
+        float _gradF2 = 1.0f / (partialX * partialX + partialY * partialY);
+        Tx -= dis2 * partialX * _gradF2;
+        Ty -= dis2 * partialY * _gradF2;
+    }
+    // 最后归一化
+    Tlen = 1.0f / sqrt(Tx * Tx + square(cos(x)) * (Ty * Ty + square(cos(y)) * Tz * Tz));
+    Tx *= Tlen;
+    Ty *= Tlen;
+    Tz *= Tlen;
+    distance[i] = camera_vertex_distance;
+    Tx_[i] = Tx;
+    Ty_[i] = Ty;
+    Tz_[i] = Tz;
 }
